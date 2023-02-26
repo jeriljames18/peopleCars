@@ -91,10 +91,6 @@ const cars = [
         personId: '3'
     }
 ];
-
-
-
-
 const typeDefs = gql`
   type Person {
     id: String!
