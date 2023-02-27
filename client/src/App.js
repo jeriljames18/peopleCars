@@ -1,24 +1,45 @@
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client"
+import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import FormCar from './components/forms/FormCar';
+import FormPeople from './components/forms/FormPeople';
+
+const apolloClient = new ApolloClient({
+  uri: "http://localhost:4000/graphql",
+  cache: new InMemoryCache(),
+});
+
+const App = () =>{
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={apolloClient}>
+      <h1>
+        PEOPLE AND THEIR CARS
+      </h1>
+      <Router>
+        <Routes>
+          <Route path="/" element={
+            <div className='App' >
+              <div className='forms'>
+                <FormPeople />
+                <FormCar/>
+              </div>
+            </div>
+          }>
+          </Route>
+          <Route path="/id" render={() => 
+            <div className='App'>
+              <div className='forms'>
+                <FormCar />
+                <FormPeople />
+              </div>
+            </div>
+          }>
+          </Route>
+        </Routes>
+      </Router>
+      
+    </ApolloProvider>
   );
 }
 
