@@ -1,5 +1,5 @@
 import { gql } from "apollo-server-express";
-const people = [
+const persons = [
     {
         id: '1',
         firstName: 'Bill',
@@ -52,7 +52,7 @@ const cars = [
     },
     {
         id: '5',
-        year: '2018',
+        year: '2019',
         make: 'Ford',
         model: 'Focus',
         price: '35000',
@@ -60,7 +60,7 @@ const cars = [
     },
     {
         id: '6',
-        year: '2017',
+        year: '2018',
         make: 'Honda',
         model: 'Pilot',
         price: '45000',

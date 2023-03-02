@@ -3,7 +3,7 @@
 const FormCar = () => {
     return (
         <div>
-            <h2>Add Person</h2>
+            <h2>Add Car</h2>
             <form >
                 <label>
                     Year:
