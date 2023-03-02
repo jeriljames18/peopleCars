@@ -1,68 +1,94 @@
-
+import { useQuery } from "@apollo/client";
+import { Button, Input, Select } from "antd";
+import { Form, InputNumber } from "antd";
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid"
+import { GET_PEOPLE } from "../../gQueries";
 
 const FormCar = () => {
+
+    const [id] = useState(uuidv4());
+    const [form] = Form.useForm();
+    const { Option } = Select;
+    const optionss = useQuery(GET_PEOPLE);
+
+    const onFinish = values => { }
+
+    const personMap = () => {
+        
+    }
     return (
         <div>
             <h2>Add Car</h2>
-            <form >
-                <label>
-                    Year:
-                    <input
-                        required
-                        type="number"
-                        min="1800"
-                        max="2023"
-                        name="year"
-                        // // onChange={handleChange}
-                        placeholder="Year"
-                    />
-                </label>
+            <Form name="Add Car"
+                form={form}
+                layout="horizontal"
+                onFinish={onFinish}
+                size="large"
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                }}>
+                <Form.Item name="year" label="Year" rules={[{
+                    required: true,
+                    message: 'Year',
+                }]}>
 
-                <label>
-                    Make:
-                    <input
-                        type="text"
-                        required
-                        // onChange={handleChange}
-                        name="make"
-                        placeholder="Make"
-                    />
-                </label>
+                    <InputNumber min={1900} max={2023} placeholder="Year" />
+                </Form.Item>
 
-                <label>
-                    Model:
-                    <input
-                        type="text"
-                        required
-                        // onChange={handleChange}
-                        name="model"
-                        placeholder="Model"
-                    />
-                </label>
+                <Form.Item name="make" label="Make" rules={[{
+                    required: true,
+                    message: 'Make'
+                }]}>
+                    <Input placeholder='Make' />
+                </Form.Item>
 
-                <label>
-                    Price:
-                    <input
-                        type="number"
-                        required
-                        // onChange={handleChange}
-                        name="price"
-                        placeholder="$"
-                    />
-                </label>
+                <Form.Item name="model" label="Model" rules={[{
+                    required: true,
+                    message: 'Model'
+                }]}>
+                    <Input placeholder='Model' />
+                </Form.Item>
 
-                <label>
-                    Person
-                    {/* <select // onChange={handleChange} name="personId">
-            {optionss.data.persons.map((e, i) => (
-              <option key={i} value={i + 1}>
-                {i + 1}
-              </option>
-            ))}
-          </select> */}
-                </label>
-                <button type="submit">Add Car</button>
-            </form>
+                <Form.Item name="price" label="Price" rules={[{
+                    required: true,
+                    message: 'price',
+                }]}>
+
+                    <InputNumber placeholder="$" />
+                </Form.Item>
+
+                <Form.Item name="person" label="Person" rules={[{
+                    required: true,
+                    message: 'price',
+                }]}>
+
+                    {/* <Select placeholder="Select a Person" >
+                        {optionss.data.persons.map((e,i)=>(
+                            <Option key={i}value={e.id}>{e.firstName}</Option>
+                        ))}
+                    </Select> */}
+                </Form.Item>
+
+                <Form.Item shouldUpdate={true}>
+                    {() => (
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            style={{
+                                backgroundColor: "lightgrey"
+                            }}
+                            disabled={
+                                !form.isFieldsTouched(true) ||
+                                form.getFieldsError().filter(({ errors }) => errors.length).length
+                            }
+                        >
+                            Add Person
+                        </Button>
+                    )}
+                </Form.Item>
+            </Form>
         </div>
     )
 

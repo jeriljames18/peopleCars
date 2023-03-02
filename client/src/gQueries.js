@@ -29,4 +29,14 @@ export const GET_CARS=gql`{
       lastName
     }
   }`
+
+  export const REMOVE_PERSON = gql`
+mutation RemovePersonMutation($id: String!) {
+  removePerson(id: $id) {
+    id
+    firstName
+    lastName
+  }
+}
+`
 ;

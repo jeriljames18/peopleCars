@@ -1,14 +1,48 @@
 import { Card } from "antd";
 import { Link } from "react-router-dom";
 import ItemList from "./ItemsList";
-import { BorderColorOutlined, Delete, DeleteOutlined, Edit } from "@mui/icons-material";
+import { BorderColorOutlined, Delete, DeleteOutlined, Edit, Filter } from "@mui/icons-material";
 import CarCard from "../cards/CardCar";
 import { IconButton } from "@mui/material";
 import { red } from "@mui/material/colors";
 import { textAlign } from "@mui/system";
+import { useMutation } from "@apollo/client";
+import { GET_PEOPLE, REMOVE_PERSON } from "../../gQueries";
 
 
 const ListPerson = ({ data }) => {
+
+    
+    const [removePerson] = useMutation(REMOVE_PERSON, {
+        update(cache, { data: { removePerson } }) {
+          const { people } = cache.readQuery({ query: GET_PEOPLE });
+          cache.writeQuery({
+            query: GET_PEOPLE,
+            data: {
+              people: Filter(people, (c) => {
+                return c.id !== removePerson.id;
+              }),
+            },
+          });
+        },
+      });
+    const handleDelete = (e,d)=>{
+        const { id, firstName, lastName } = d;
+        removePerson({
+            variables: {
+                id,
+              },
+              optimisticResponse: {
+                __typename: "Mutation",
+                removePerson: {
+                  __typename: "Person",
+                  id,
+                  firstName,
+                  lastName,
+                },
+              },
+        })
+    }
 
     return (
         <>
@@ -42,7 +76,7 @@ const ListPerson = ({ data }) => {
                             
                             </IconButton>
                             <IconButton >
-                            <DeleteOutlined  sx={{ color: red[500] }}/>
+                            <DeleteOutlined  to={`/person/${value.id}`} onClick={(e)=>handleDelete(e,value)} sx={{ color: red[500] }}/>
                             
                             </IconButton>
                             </div>

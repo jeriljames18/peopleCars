@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Form } from "antd";
 import {v4 as uuidv4 } from "uuid"
-import { Button, Input } from "@mui/material";
+import { Button, Input } from "antd";
 import { useMutation } from "@apollo/client";
 import { ADD_PERSON, GET_PEOPLE } from "../../gQueries";
 
